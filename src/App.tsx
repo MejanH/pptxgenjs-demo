@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import pptxgen from "pptxgenjs";
+let pptx = new pptxgen();
 
 function App() {
+  const [doc, setDoc] = React.useState(null);
+  let slide = pptx.addSlide();
+  slide.addText("React Demo!", {
+    x: 1,
+    y: 1,
+    w: 10,
+    fontSize: 36,
+    fill: { color: "F1F1F1" },
+    align: "center",
+  });
+  // as of currently installed latest version of pptxgenjs, this background option causing file corupted errors on the export file.
+  slide.background = { path: "https://source.unsplash.com/random/800x600" };
+
+  const handleClick = () => {
+    pptx.writeFile({ fileName: "react-demo.pptx" });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React PPTx testing</h1>
+      <button onClick={handleClick}>download the pptx file</button>
     </div>
   );
 }
